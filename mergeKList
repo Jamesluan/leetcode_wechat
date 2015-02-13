@@ -1,0 +1,37 @@
+public class Solution {
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if(lists==null)
+            return null;
+ 
+        Comparator<ListNode> Nodecmp = new Comparator<ListNode> (){
+            public int compare (ListNode A, ListNode B){
+                return A.val-B.val;
+            }
+        };
+        PriorityQueue<ListNode> pq= new PriorityQueue<ListNode> (10, Nodecmp);
+        
+        ListNode ret=null;
+        ListNode current=ret;
+        for(int i=0;i<lists.size();i++){
+            ListNode tmp=lists.get(i);
+            while(tmp!=null){
+                pq.add(tmp);
+                tmp=tmp.next;
+            }
+        }
+        
+        while(!pq.isEmpty()){
+            if(ret==null){
+                ret=pq.poll();
+                current=ret;
+            }
+            else{
+                current.next=pq.poll();
+                current=current.next;
+            }
+        }
+        if(current!=null)
+           current.next=null;
+        return ret;
+    }
+}
